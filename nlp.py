@@ -6,7 +6,7 @@ import re
 import streamlit as st
 import pyttsx3
 
-openai.api_key = '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'
+openai.api_key = 'your Own OpenAI api'
 engine = pyttsx3.init("sapi5")
 rate = 145
 engine.setProperty('rate', rate)
