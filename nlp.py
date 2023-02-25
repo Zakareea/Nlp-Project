@@ -4,14 +4,6 @@ import openai
 import os
 import re
 import streamlit as st
-import pyttsx3
-
-openai.api_key = 'your Own OpenAI api'
-engine = pyttsx3.init("sapi5")
-rate = 145
-engine.setProperty('rate', rate)
-voices = engine.getProperty('voices')
-engine.setProperty('voice', voices[1].id)
 
 class NLP:
 	
@@ -34,18 +26,6 @@ class NLP:
 		if st.button('Summarize'):
 			summarization = self.generator(f"""summarize the following text: {text}""")
 			st.write(summarization)
-	
-	def translate(self):
-		st.header('Translation')
-		col1, col2 = st.columns(2)
-		with col1:
-			natal = st.text_input('from', key='from')
-			text = st.text_input('Text')
-		with col2:
-			to = st.text_input('to', key='to')
-			if st.button('Translate'):
-				translation = self.generator(f"""translate the following text from {natal} into {to}: {text}""")
-				st.text(translation)
 
 	def sentiment_analysis(self):
 		st.header('Sentiment Analysis')
@@ -59,10 +39,7 @@ class NLP:
 		text = st.text_input('About')
 		if st.button('Generate'):
 			article = self.generator(f"""write an article about {text}""")
-			st.write(article)
-			engine.save_to_file(article, 'voice.mp3')
-			engine.runAndWait()
-			st.audio('voice.mp3')
+			st.text(article)
 
 	def generate_story(self):
 		st.header('Story Generator')
@@ -70,19 +47,15 @@ class NLP:
 
 		if st.button('Generate'):
 			story = self.generator(f"""write a story about {topic}""")
-			st.write(story)
-			engine.save_to_file(story, 'voice.mp3')
-			engine.runAndWait()
-			st.audio('voice.mp3')
+			st.text(story)
 
 def main():
 	st.title('Nlp Tasks')
 	nlp = NLP()
 	pages = {'Text Summarization': nlp.summarize,
-			 'Translation': nlp.translate,
-			 'Sentiment Analysis': nlp.sentiment_analysis,
-			 'Article Generator': nlp.generate_article,
-			 'Story Generator': nlp.generate_story}
+		 'Sentiment Analysis': nlp.sentiment_analysis,
+		 'Article Generator': nlp.generate_article,
+		 'Story Generator': nlp.generate_story}
 
 	page = st.selectbox('Choose some NLP Task', pages.keys())
 	pages[page]()
