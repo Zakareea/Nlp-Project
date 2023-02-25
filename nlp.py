@@ -1,7 +1,5 @@
 import numpy as np
-import pandas as pd
 import openai
-import os
 import re
 import streamlit as st
 
@@ -16,9 +14,9 @@ class NLP:
 		  top_p=1,
 		  frequency_penalty=0,
 		  presence_penalty=0
-	)
+		)
 		res = response['choices'][0]['text']
-		return re.sub('\n', '', res)
+		return res
 	
 	def summarize(self):
 		st.header('Text Summarization')
@@ -36,18 +34,18 @@ class NLP:
 
 	def generate_article(self):
 		st.header('Article Generator')
-		text = st.text_input('About')
+		topic = st.text_input('About')
 		if st.button('Generate'):
-			article = self.generator(f"""write an article about {text}""")
-			st.text(article)
+			article = self.generator(f"write an article about {topic}")
+			st.write(article)
 
 	def generate_story(self):
 		st.header('Story Generator')
 		topic = st.text_input('About')
 
 		if st.button('Generate'):
-			story = self.generator(f"""write a story about {topic}""")
-			st.text(story)
+			story = self.generator(f"write a story about {topic}")
+			st.write(story)
 
 def main():
 	st.title('Nlp Tasks')
@@ -61,3 +59,4 @@ def main():
 	pages[page]()
 
 main()
+# You run this code by typing "streamlit run nlp.py" on the command line
